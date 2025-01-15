@@ -18,6 +18,10 @@ public readonly struct Chord(Note s, Note a, Note t, Note b, int offset = 0)
     public readonly Note Tenor => tenor.Octivate(Offset);
     /// <summary>男低音</summary>
     public readonly Note Bass => bass.Octivate(Offset);
+    public readonly string S => $"{Soprano.Pitch} {Soprano.Offset}";
+    public readonly string A => $"{Alto.Pitch} {Alto.Offset}";
+    public readonly string T => $"{Tenor.Pitch} {Tenor.Offset}";
+    public readonly string B => $"{Bass.Pitch} {Bass.Offset}";
     public readonly Note this[int index] => index switch
     {
         1 => Bass,

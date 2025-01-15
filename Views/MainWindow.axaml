@@ -15,6 +15,71 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+	<Canvas Margin="0 0 0 0" Background="AliceBlue">
+		<StackPanel Margin="16">
+			<TextBlock Margin="0 8">和弦清单位置：</TextBlock>
+			<StackPanel Orientation="Horizontal">
+				<TextBox Watermark="请选择文件路径" MinWidth="736" Text="{Binding ChordSrc}"/>
+				<Button Width="32" Height="32" FontSize="16" FontWeight="ExtraBold" Command="{Binding FindSrcCommand}">+</Button>
+			</StackPanel>
+			<TextBlock Margin="0 8">旋律音序列：</TextBlock>
+			<TextBox Watermark="请输入旋律音序列，例如：1 1 5 5 6 6 5" MinWidth="768" Text="{Binding MelodySeq}"/>
+			
+			<StackPanel Orientation="Horizontal" Spacing="16" Margin="0 8">
+				<CheckBox IsChecked="{Binding Direction}">允许四部同向</CheckBox>
+				<CheckBox IsChecked="{Binding Parallel}">允许平五平八</CheckBox>
+				<CheckBox IsChecked="{Binding Reverse}">允许反功能进行</CheckBox>
+				<Rectangle Width="296"/>
+				<Button Command="{Binding GenerateCommand}">生成！</Button>
+			</StackPanel>
 
+			<ScrollViewer VerticalScrollBarVisibility="Auto">
+				<Border BorderBrush="Azure" Width="768" Height="240" BorderThickness="2" CornerRadius="4" Padding="4">
+					<ListBox ItemsSource="{Binding Result}">
+						<ListBox.Styles>
+							<Style Selector="ListBoxItem">
+								<Setter Property="Padding" Value="2"/>
+							</Style>
+						</ListBox.Styles>
+						<ListBox.ItemTemplate>
+						<DataTemplate>
+
+							<StackPanel Orientation="Horizontal" Background="AliceBlue" Spacing="8">
+								
+								<StackPanel>
+									<TextBlock Text="S"/>
+									<TextBlock Text="A"/>
+									<TextBlock Text="T"/>
+									<TextBlock Text="B"/>
+								</StackPanel>
+								
+								<ScrollViewer HorizontalScrollBarVisibility="Auto">
+									<ItemsRepeater ItemsSource="{Binding}">
+										<ItemsRepeater.Layout>
+											<StackLayout Spacing="4" Orientation="Horizontal"/>
+										</ItemsRepeater.Layout>
+										<ItemsRepeater.ItemTemplate>
+										<DataTemplate>
+
+											<StackPanel Background="Azure">
+												<TextBlock Text="{Binding S}"/>
+												<TextBlock Text="{Binding A}"/>
+												<TextBlock Text="{Binding T}"/>
+												<TextBlock Text="{Binding B}"/>
+											</StackPanel>
+									
+										</DataTemplate>
+										</ItemsRepeater.ItemTemplate>
+									</ItemsRepeater>
+								</ScrollViewer>
+							</StackPanel>
+						
+						</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+				</Border>
+			</ScrollViewer>
+		</StackPanel>
+	</Canvas>
+	
 </Window>
