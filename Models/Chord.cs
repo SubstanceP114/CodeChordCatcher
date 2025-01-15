@@ -32,9 +32,9 @@ public readonly struct Chord(Note s, Note a, Note t, Note b, int offset = 0)
     };
     public readonly Chord Octivate(int num) => new(soprano, alto, tenor, bass, Offset + num);
     /// <summary>
-    /// 根据原位和弦产生一组和弦
+    /// 根据三个音符组成的原位和弦产生一组和弦
     /// </summary>
-    /// <param name="root">根音</param>
+    /// <param name="root">低音</param>
     /// <param name="mid">中音</param>
     /// <param name="upper">高音</param>
     /// <returns>一组可用于四部和声的和弦</returns>
@@ -47,6 +47,22 @@ public readonly struct Chord(Note s, Note a, Note t, Note b, int offset = 0)
         new(root + 7, mid, upper - 7, root - 7),
         new(mid, root, upper - 7, root - 7),
         new(mid + 7, upper, root, root - 7),
+    ];
+    /// <summary>
+    /// 根据四个音符组成的原位和弦产生一组和弦
+    /// </summary>
+    /// <param name="soprano">高音</param>
+    /// <param name="alto">中音</param>
+    /// <param name="tenor">次中</param>
+    /// <param name="bass">低音</param>
+    /// <returns>一组可用于四部和声的和弦</returns>
+    public static List<Chord> Generate(Note soprano, Note alto, Note tenor, Note bass) => [
+        new(soprano - 7, alto - 7, tenor - 7, bass - 7),
+        new(alto, soprano - 7, tenor - 7, bass - 7),
+        new(tenor, soprano - 7, alto - 7, bass - 7),
+        new(soprano, tenor, alto - 7, bass - 7),
+        new(alto, tenor, soprano - 7, bass - 7),
+        new(tenor + 7, alto, soprano - 7, bass - 7),
     ];
     /// <summary>
     /// 检查下一个和弦正确性
