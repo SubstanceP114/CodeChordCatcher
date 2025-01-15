@@ -1,4 +1,4 @@
-﻿namespace CodeChordCatcher;
+﻿namespace CodeChordCatcher.Core;
 
 public readonly struct Note
 {

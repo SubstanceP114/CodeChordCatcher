@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CodeChordCatcher;
+namespace CodeChordCatcher.Core;
 
 public class Executor
 {

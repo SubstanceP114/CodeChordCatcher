@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CodeChordCatcher;
+namespace CodeChordCatcher.Core;
 
 public readonly struct Chord(Note s, Note a, Note t, Note b, int offset = 0)
 {
@@ -79,8 +79,8 @@ public readonly struct Chord(Note s, Note a, Note t, Note b, int offset = 0)
     /// <param name="next">待检查和弦</param>
     /// <returns>是否出现四部同向</returns>
     private readonly bool CheckDirection(Chord next) =>
-        (Soprano - next.Soprano > 0 && Alto - next.Alto > 0 && Tenor - next.Tenor > 0 && Bass - next.Bass > 0)
-        || (Soprano - next.Soprano < 0 && Alto - next.Alto < 0 && Tenor - next.Tenor < 0 && Bass - next.Bass < 0);
+        Soprano - next.Soprano > 0 && Alto - next.Alto > 0 && Tenor - next.Tenor > 0 && Bass - next.Bass > 0
+        || Soprano - next.Soprano < 0 && Alto - next.Alto < 0 && Tenor - next.Tenor < 0 && Bass - next.Bass < 0;
     /// <summary>
     /// 检查平五平八
     /// </summary>

@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using System.Linq;
 using LuaInterface;
 using CodeChordCatcher.Views;
+using CodeChordCatcher.Core;
 using System.Collections.ObjectModel;
 using System;
 
