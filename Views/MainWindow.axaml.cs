@@ -10,10 +10,6 @@ namespace CodeChordCatcher.Views
         {
             Instance = this;
             InitializeComponent();
-            InitView();
-        }
-        private void InitView()
-        {
             Width = MinWidth = MaxWidth = 800;
             Height = MinHeight = MaxHeight = 450;
         }

@@ -29,7 +29,7 @@
 				<CheckBox IsChecked="{Binding Direction}">允许四部同向</CheckBox>
 				<CheckBox IsChecked="{Binding Parallel}">允许平五平八</CheckBox>
 				<CheckBox IsChecked="{Binding Reverse}">允许反功能进行</CheckBox>
-				<Rectangle Width="296"/>
+				<TextBlock Width="296" Margin="0 8" Foreground="Coral" Text="{Binding Tips}"/>
 				<Button Command="{Binding GenerateCommand}">生成！</Button>
 			</StackPanel>
 

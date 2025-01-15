@@ -54,6 +54,7 @@ public class Executor
                 foreach (var c in list)
                     if (chord.CheckNext(c, Direction, Parallel))
                         result.AddRange(Predicate(g, c, notes, index + 1, new(sequence)));
+        if (note == notes[index - 1]) result.AddRange(Predicate(group, chord, notes, index + 1, sequence));
         return result;
     }
     private List<List<Chord>> Predicate(Chord chord, List<Note> notes, int index, List<Chord> sequence)
@@ -65,7 +66,9 @@ public class Executor
         foreach (var kvp in chords)
             if (kvp.Value.TryGetValue(note, out var list))
                 foreach (var c in list)
-                    result.AddRange(Predicate(c, notes, index + 1, new(sequence)));
+                    if (chord.CheckNext(c, Direction, Parallel))
+                        result.AddRange(Predicate(c, notes, index + 1, new(sequence)));
+        if (note == notes[index - 1]) result.AddRange(Predicate(chord, notes, index + 1, sequence));
         return result;
     }
     public List<List<Chord>> Process(List<Note> notes)

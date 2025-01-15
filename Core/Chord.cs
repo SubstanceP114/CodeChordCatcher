@@ -88,13 +88,12 @@ public readonly struct Chord(Note s, Note a, Note t, Note b, int offset = 0)
     /// <returns>是否出现平五平八</returns>
     private readonly bool CheckParallel(Chord next)
     {
-        if (Bass == next.Bass && Tenor == next.Tenor && Alto == next.Alto && Soprano == next.Soprano) return false;
         for (int i = 1; i < 4; i++)
             for (int j = i + 1; j <= 4; j++)
             {
-                int thisInterval = (this[j] - this[i]) % 7;
+                int thisInterval = (this[j] - this[i]+70) % 7;
                 if (thisInterval != 0 || thisInterval != 4) continue;
-                int nextInterval = (next[j] - next[i]) % 7;
+                int nextInterval = (next[j] - next[i]+70) % 7;
                 if (nextInterval == thisInterval) return true;
             }
         return false;

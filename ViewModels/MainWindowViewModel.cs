@@ -6,6 +6,7 @@ using CodeChordCatcher.Views;
 using CodeChordCatcher.Core;
 using System.Collections.ObjectModel;
 using System;
+using System.IO;
 
 namespace CodeChordCatcher.ViewModels
 {
@@ -19,6 +20,8 @@ namespace CodeChordCatcher.ViewModels
         private bool parallel, direction, reverse;
         [ObservableProperty]
         private ObservableCollection<ObservableCollection<Chord>>? result;
+        [ObservableProperty]
+        private string? tips;
         [RelayCommand]
         private void FindSrc() => FindAsync();
         private async void FindAsync()
@@ -36,6 +39,7 @@ namespace CodeChordCatcher.ViewModels
         private void Generate()
         {
             if (MelodySeq == null || ChordSrc == null) return;
+            Tips = null;
             Executor executor = new()
             {
                 Direction = !Direction,
@@ -44,6 +48,11 @@ namespace CodeChordCatcher.ViewModels
             };
             using (Lua lua = new())
             {
+                if (!File.Exists(ChordSrc))
+                {
+                    Tips = "文件路径有误";
+                    return;
+                }
                 lua.DoFile(ChordSrc);
                 void AddChords(string name, Executor.Group group)
                 {
@@ -64,13 +73,23 @@ namespace CodeChordCatcher.ViewModels
                         });
                     }
                 }
-                AddChords("Tonic", Executor.Group.I);
-                AddChords("Subdominant", Executor.Group.IV);
-                AddChords("Dominant", Executor.Group.V);
+                try
+                {
+                    AddChords("Tonic", Executor.Group.I);
+                    AddChords("Subdominant", Executor.Group.IV);
+                    AddChords("Dominant", Executor.Group.V);
+                }
+                catch { Tips = "和弦配置有误"; }
             }
-            Result = new(executor.Process(MelodySeq!.Split().ToList()
-                .ConvertAll<Note>(x => int.Parse(x)))
-                .ConvertAll<ObservableCollection<Chord>>(x => new(x)));
+            try
+            {
+                Result = new(executor.Process(MelodySeq!.Split()
+                    .Where(x => x != "").ToList()
+                    .ConvertAll<Note>(x => int.Parse(x)))
+                    .ConvertAll<ObservableCollection<Chord>>(x => new(x)));
+                Tips = $"共{Result.Count}条结果";
+            }
+            catch { Tips = "和弦生成失败"; }
         }
     }
 }
