@@ -16,7 +16,8 @@ namespace CodeChordCatcher.ViewModels
         private string? melodySeq;
         [ObservableProperty]
         private bool parallel, direction, reverse;
-        public ObservableCollection<ObservableCollection<Chord>>? Result { get; set; }
+        [ObservableProperty]
+        private ObservableCollection<ObservableCollection<Chord>>? result;
         [RelayCommand]
         private void FindSrc() => FindAsync();
         private async void FindAsync()
@@ -43,7 +44,6 @@ namespace CodeChordCatcher.ViewModels
             using (Lua lua = new())
             {
                 lua.DoFile(ChordSrc);
-                MelodySeq = lua.GetTable("Chord")[2] as string;
                 void AddChords(string name, Executor.Group group)
                 {
                     foreach (string chord in lua.GetTable(name).Values)
