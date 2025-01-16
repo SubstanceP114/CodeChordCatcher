@@ -12,12 +12,84 @@ namespace CodeChordCatcher.ViewModels
 {
     public partial class MainWindowViewModel : ViewModelBase
     {
+        private const string CONFIG_PATH = "Config.lua";
+        private const string DEFAULT_CHORD_PATH = "Traid.lua";
+        private const string EXTENDED_CHORD_PATH = "TraidAndSeventh.lua";
+        private const string DEFAULT_CHORD =
+@"Tonic = -- 主功能组
+{
+    '1 3 5',
+    '3 5 7',
+    '5 7 9',
+}
+Subdominant = -- 下属功能组
+{
+    '4 6 8',
+    '6 8 10',
+    '2 4 6',
+}
+Dominant = -- 属功能组
+{
+    '5 7 9',
+    '7 9 11',
+    '3 5 7',
+}";
+        private const string EXTENDED_CHORD =
+@"Tonic = -- 主功能组
+{
+    '1 3 5',
+    '3 5 7',
+    '5 7 9',
+    '1 3 5 7',
+    '3 5 7 9',
+    '5 7 9 11',
+}
+Subdominant = -- 下属功能组
+{
+    '4 6 8',
+    '6 8 10',
+    '2 4 6',
+    '4 6 8 10',
+    '6 8 10 12',
+    '2 4 6 8',
+}
+Dominant = -- 属功能组
+{
+    '5 7 9',
+    '7 9 11',
+    '3 5 7',
+    '5 7 9 11',
+    '7 9 11 13',
+    '3 5 7 9',
+}";
+        public MainWindowViewModel()
+        {
+            if (!File.Exists(CONFIG_PATH))
+                File.WriteAllLines(CONFIG_PATH, [
+                    $"ChordSrc = \"{DEFAULT_CHORD_PATH}\"",
+                    "Direction = false",
+                    "Parallel = false",
+                    "Reverse = false",
+                ]);
+            if (!File.Exists(DEFAULT_CHORD_PATH))
+                File.WriteAllText(DEFAULT_CHORD_PATH, DEFAULT_CHORD);
+            if (!File.Exists(EXTENDED_CHORD_PATH))
+                File.WriteAllText(EXTENDED_CHORD_PATH, EXTENDED_CHORD);
+            using (Lua lua = new())
+            {
+                lua.DoFile(CONFIG_PATH);
+                ChordSrc = lua.GetString("ChordSrc");
+                Direction = (bool)lua["Direction"];
+                Parallel = (bool)lua["Parallel"];
+                Reverse = (bool)lua["Reverse"];
+            }
+        }
         [ObservableProperty]
         private string? chordSrc;
         [ObservableProperty]
         private string? melodySeq;
         [ObservableProperty]
-        private bool parallel, direction, reverse;
+        private bool direction, parallel, reverse;
         [ObservableProperty]
         private ObservableCollection<ObservableCollection<Chord>>? result;
         [ObservableProperty]

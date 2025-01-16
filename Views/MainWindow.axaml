@@ -19,16 +19,16 @@
 		<StackPanel Margin="16">
 			<TextBlock Margin="0 8">和弦清单位置：</TextBlock>
 			<StackPanel Orientation="Horizontal">
-				<TextBox Watermark="请选择文件路径" MinWidth="736" Text="{Binding ChordSrc}"/>
+				<TextBox Name="ChordText" Watermark="请选择文件路径" MinWidth="736" Text="{Binding ChordSrc}"/>
 				<Button Width="32" Height="32" FontSize="16" FontWeight="ExtraBold" Command="{Binding FindSrcCommand}">+</Button>
 			</StackPanel>
 			<TextBlock Margin="0 8">旋律音序列：</TextBlock>
 			<TextBox Watermark="请输入旋律音序列，例如：1 1 5 5 6 6 5" MinWidth="768" Text="{Binding MelodySeq}"/>
 			
 			<StackPanel Orientation="Horizontal" Spacing="16" Margin="0 8">
-				<CheckBox IsChecked="{Binding Direction}">允许四部同向</CheckBox>
-				<CheckBox IsChecked="{Binding Parallel}">允许平五平八</CheckBox>
-				<CheckBox IsChecked="{Binding Reverse}">允许反功能进行</CheckBox>
+				<CheckBox Name="DirectionBtn" IsChecked="{Binding Direction}">允许四部同向</CheckBox>
+				<CheckBox Name="ParallelBtn" IsChecked="{Binding Parallel}">允许平五平八</CheckBox>
+				<CheckBox Name="ReverseBtn" IsChecked="{Binding Reverse}">允许反功能进行</CheckBox>
 				<TextBlock Width="296" Margin="0 8" Foreground="Coral" Text="{Binding Tips}"/>
 				<Button Command="{Binding GenerateCommand}">生成！</Button>
 			</StackPanel>
