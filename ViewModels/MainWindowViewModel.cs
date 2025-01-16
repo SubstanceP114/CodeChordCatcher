@@ -78,11 +78,20 @@ Dominant = -- 属功能组
                 File.WriteAllText(EXTENDED_CHORD_PATH, EXTENDED_CHORD);
             using (Lua lua = new())
             {
-                lua.DoFile(CONFIG_PATH);
-                ChordSrc = lua.GetString("ChordSrc");
-                Direction = (bool)lua["Direction"];
-                Parallel = (bool)lua["Parallel"];
-                Reverse = (bool)lua["Reverse"];
+                void ReadConfig()
+                {
+                    lua.DoFile(CONFIG_PATH);
+                    ChordSrc = lua.GetString("ChordSrc");
+                    Direction = (bool)lua["Direction"];
+                    Parallel = (bool)lua["Parallel"];
+                    Reverse = (bool)lua["Reverse"];
+                }
+                try { ReadConfig(); }
+                catch
+                {
+                    File.WriteAllLines(CONFIG_PATH, MakeConfig(DEFAULT_CHORD_PATH, false, false, false));
+                    ReadConfig();
+                }
             }
         }
         [ObservableProperty]
@@ -103,7 +112,7 @@ Dominant = -- 属功能组
             {
                 Title = "选择和弦配置文件",
                 AllowMultiple = false,
-                FileTypeFilter = [new("Lua文件") { Patterns = ["*.lua"] }]
+                FileTypeFilter = [new("Lua文件") { Patterns = ["*.lua"] }],
             });
             if (file.Count == 0) return;
             ChordSrc = file[0].Path.AbsolutePath;
