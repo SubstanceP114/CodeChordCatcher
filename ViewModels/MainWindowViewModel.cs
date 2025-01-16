@@ -62,15 +62,16 @@ Dominant = -- 属功能组
     '7 9 11 13',
     '3 5 7 9',
 }";
+        private string[] MakeConfig(string chordSrc, bool direction, bool parallel, bool reverse) => [
+            $"ChordSrc = \"{chordSrc}\"",
+            direction ? "Direction = true" : "Direction = false",
+            parallel ? "Parallel = true" : "Parallel = false",
+            reverse ? "Reverse = true" : "Reverse = false",
+        ];
         public MainWindowViewModel()
         {
             if (!File.Exists(CONFIG_PATH))
-                File.WriteAllLines(CONFIG_PATH, [
-                    $"ChordSrc = \"{DEFAULT_CHORD_PATH}\"",
-                    "Direction = false",
-                    "Parallel = false",
-                    "Reverse = false",
-                ]);
+                File.WriteAllLines(CONFIG_PATH, MakeConfig(DEFAULT_CHORD_PATH, false, false, false));
             if (!File.Exists(DEFAULT_CHORD_PATH))
                 File.WriteAllText(DEFAULT_CHORD_PATH, DEFAULT_CHORD);
             if (!File.Exists(EXTENDED_CHORD_PATH))
@@ -112,6 +113,7 @@ Dominant = -- 属功能组
         {
             if (MelodySeq == null || ChordSrc == null) return;
             Tips = null;
+            File.WriteAllLines(CONFIG_PATH, MakeConfig(ChordSrc, Direction, Parallel, Reverse));
             Executor executor = new()
             {
                 Direction = !Direction,
