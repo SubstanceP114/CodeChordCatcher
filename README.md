@@ -3,9 +3,9 @@
 > 一个简易的和弦生成器
 ## 开始
 - 运行CodeChordCatcher.exe，我们可以看到如下界面：
-![输入图片说明](/imgs/2025-01-16/f00PGcFtR7g7Jum5.png)
+![输入图片说明](/imgs/1.png)
 - 按照提示输入这段kirakiradokidoki的旋律，得到1381条以它为最高音的进行：
-![输入图片说明](/imgs/2025-01-16/H7NBfNB3daaYf3yV.png)
+![输入图片说明](/imgs/2.png)
 - 其中：
 	- STAB分别表示Soprano（高音）、Alto（中音）、Tenor（次中音）、Bass（低音）。
 	- 1(0)表示I级音，5(-1)表示低一个八度的V级音，依此类推。
